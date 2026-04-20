@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/ml-common/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-generator/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-user/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-course/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-sale/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-order/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-barrage/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-chat/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-web/pom.xml" />
+        <option value="$PROJECT_DIR$/ml-miniapp/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

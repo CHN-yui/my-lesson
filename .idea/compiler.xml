@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ml-common" />
+        <module name="ml-course" />
+        <module name="ml-gateway" />
+        <module name="ml-generator" />
+        <module name="ml-sale" />
+        <module name="ml-user" />
+        <module name="ml-order" />
+        <module name="ml-chat" />
+        <module name="ml-web" />
+        <module name="ml-barrage" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
