@@ -1,0 +1,16 @@
+package com.mdkj.exception;
+
+import com.mdkj.result.ResultCode;
+import lombok.Getter;
+
+/** 自定义异常 */
+@Getter
+public class ServiceException extends RuntimeException {
+
+    private final ResultCode resultCode;
+
+    public ServiceException(ResultCode resultCode, String coderMessage) {
+        super(coderMessage);
+        this.resultCode = resultCode;
+    }
+}
