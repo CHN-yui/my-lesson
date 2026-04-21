@@ -7,17 +7,19 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ml-common" />
-        <module name="ml-miniapp" />
         <module name="ml-course" />
         <module name="ml-gateway" />
         <module name="ml-generator" />
         <module name="ml-sale" />
         <module name="ml-user" />
         <module name="ml-order" />
-        <module name="ml-chat" />
         <module name="ml-web" />
         <module name="ml-barrage" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ml-chat" target="17" />
+      <module name="ml-miniapp" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

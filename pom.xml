@@ -17,7 +17,6 @@
         <module>ml-sale</module>
         <module>ml-order</module>
         <module>ml-barrage</module>
-        <module>ml-chat</module>
     </modules>
 
     <properties>
