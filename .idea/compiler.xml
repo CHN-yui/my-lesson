@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ml-common" />
+        <module name="ml-miniapp" />
         <module name="ml-course" />
         <module name="ml-gateway" />
         <module name="ml-generator" />

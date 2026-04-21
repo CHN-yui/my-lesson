@@ -13,6 +13,8 @@
     <file url="file://$PROJECT_DIR$/ml-gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ml-generator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ml-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ml-miniapp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ml-miniapp/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ml-order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ml-order/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ml-sale/src/main/java" charset="UTF-8" />
@@ -21,5 +23,7 @@
     <file url="file://$PROJECT_DIR$/ml-user/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ml-web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ml-web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
 </project>
