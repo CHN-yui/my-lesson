@@ -1,9 +1,13 @@
 package com.mdkj.service.impl;
 
+import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mdkj.domain.User;
+import com.mdkj.exception.ServiceException;
+import com.mdkj.result.ResultCode;
 import com.mdkj.service.UserService;
 import com.mdkj.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,6 +15,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.mdkj.util.NotNullCheckUtil;
@@ -21,6 +26,9 @@ import com.mdkj.util.NotNullCheckUtil;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService{
 
+
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public List<User> selectAll() {
         LambdaQueryWrapper <User> lqw = new LambdaQueryWrapper<>();
@@ -38,6 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void insert(User iUser) {
+        iUser.setPassword(BCrypt.hashpw(iUser.getPassword(), BCrypt.gensalt()));
         save(iUser);
     }
 
@@ -71,6 +80,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public List<User> getExcelData() {
         return selectAll();
+    }
+
+    @Override
+    @Transactional
+    public void resetPassword(String ids) {
+        String hashpw = BCrypt.hashpw("123456789", BCrypt.gensalt());
+        User user = new User();
+        user.setPassword(hashpw);
+        user.setUpdated(new Date());
+
+        LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<>();
+        for (String id : ids.split(",")) {
+            lqw.eq(User::getId,id);
+            update(user,lqw);
+        }
+    }
+
+    @Override
+    public void updatePassword(String oldPassword, String newPassword, String id) {
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            throw new ServiceException(ResultCode.USER_NOT_FOUND,"用户不存在");
+        }
+        if (!BCrypt.checkpw(oldPassword,user.getPassword())) {
+            throw new ServiceException(ResultCode.OLD_PASSWORD_ILLEGAL,"旧密码错误");
+        }
+        user.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+        user.setUpdated(new Date());
+        update(user);
     }
 
     public LambdaQueryWrapper<User> lqw(User iUser){

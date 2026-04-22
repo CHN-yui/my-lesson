@@ -9,6 +9,8 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * 用户表管理
  */
@@ -77,6 +79,23 @@ public class UserController {
     @GetMapping("/excel")
     public void excel(HttpServletResponse resp) {
         EasyExcelUtil.download(resp, "用户表", iUserService.getExcelData());
+    }
+
+    /**
+     * 重置密码
+     */
+    @PostMapping("/resetPassword")
+    public R resetPassword(@RequestParam("ids") String ids){
+        iUserService.resetPassword(ids);
+        return R.ok("重置密码成功");
+    }
+    /**
+     * 修改密码
+     */
+    @PostMapping("/updatePassword")
+    public R updatePassword(@RequestBody Map<String,String> map){
+        iUserService.updatePassword(map.get("oldPassword"),map.get("newPassword"),map.get("id"));
+        return R.ok("修改密码成功");
     }
 }
 

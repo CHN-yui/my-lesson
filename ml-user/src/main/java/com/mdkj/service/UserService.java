@@ -44,4 +44,14 @@ public interface UserService extends IService<User>{
     * 导出Excel数据
     */
     List<User> getExcelData();
+
+    /**
+     * 重置密码
+     */
+    void resetPassword(String ids);
+
+    /**
+     * 修改密码
+     */
+    void updatePassword(String oldPassword, String newPassword,String id);
 }
