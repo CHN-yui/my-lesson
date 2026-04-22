@@ -44,4 +44,14 @@ public interface RoleMenuService extends IService<RoleMenu>{
     * 导出Excel数据
     */
     List<RoleMenu> getExcelData();
+
+    /**
+     * 查询角色菜单ID列表
+     */
+    List<Long> getMenuIdsByRoleId(Long roleId);
+
+    /**
+     * 修改角色菜单
+     */
+    void updateRoleMenus(Long roleId, List<Long> menuIds);
 }

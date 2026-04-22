@@ -15,18 +15,20 @@ public class MinioUtil {
     /** Minio客户端 */
     private static MinioClient minioClient;
     /** Minio端点 */
-    private final static String END_POINT = "http://192.168.211.132:9000";
-    /** Minio访问KEY */
-    private final static String ACCESS_KEY = "miniominio";
-    /** Minio秘钥 */
-    private final static String SECRET_KEY = "minioadmin";
+    private static String endpoint;
 
-    static {
-        try {
-            minioClient = new MinioClient(END_POINT, ACCESS_KEY, SECRET_KEY);
-        } catch (Exception e) {
-            log.error("MinioClient实例化失败: {}", e.getMessage());
-        }
+    /**
+     * 由配置类注入MinioClient实例
+     */
+    public static void setMinioClient(MinioClient client) {
+        minioClient = client;
+    }
+
+    /**
+     * 由配置类注入Minio端点
+     */
+    public static void setEndpoint(String minioEndpoint) {
+        endpoint = minioEndpoint;
     }
 
     /**
@@ -62,11 +64,20 @@ public class MinioUtil {
         checkMultipartFile(file);
         // 获取原始文件名
         String fileName = file.getOriginalFilename();
-        checkFileName(fileName);
+        // 如果原始文件名为空，使用默认名称
+        if (StrUtil.isEmpty(fileName)) {
+            fileName = "default-avatar.jpg";
+        }
+        // 获取文件后缀
+        String suffix = ".jpg";
+        int lastDotIndex = fileName.lastIndexOf(".");
+        if (lastDotIndex != -1) {
+            suffix = fileName.substring(lastDotIndex);
+        }
         // 生成随机文件名并返回
         return UUID.randomUUID().toString().substring(26) + "-"
                 + System.currentTimeMillis()
-                + fileName.substring(fileName.lastIndexOf("."));
+                + suffix;
     }
 
     /**
@@ -87,6 +98,19 @@ public class MinioUtil {
     }
 
     /**
+     * 构建公开访问URL
+     */
+    public static String publicUrl(String fileName, String dir, String bucketName) {
+        checkFileName(fileName);
+        checkDir(dir);
+        checkBucket(bucketName);
+        if (StrUtil.isBlank(endpoint)) {
+            throw new RuntimeException("MINIO端点未初始化，请检查MinIO配置");
+        }
+        return endpoint + "/" + bucketName + "/" + dir + "/" + fileName;
+    }
+
+    /**
      * 检查 MultipartFile 是否为空，若为空则抛出异常
      *
      * @param multipartFile 文件对象
@@ -94,6 +118,15 @@ public class MinioUtil {
     private static void checkMultipartFile(MultipartFile multipartFile) {
         if (ObjectUtil.isNull(multipartFile)) {
             throw new RuntimeException("MINIO文件对象为空");
+        }
+    }
+
+    /**
+     * 检查MinioClient是否初始化成功
+     */
+    private static void checkClient() {
+        if (ObjectUtil.isNull(minioClient)) {
+            throw new RuntimeException("MINIO客户端未初始化，请检查MinIO配置");
         }
     }
 
@@ -126,6 +159,7 @@ public class MinioUtil {
      */
     @SneakyThrows
     private static void checkBucket(String bucketName) {
+        checkClient();
 
         if (StrUtil.isEmpty(bucketName)) {
             throw new RuntimeException("MINIO桶名为空或空串");

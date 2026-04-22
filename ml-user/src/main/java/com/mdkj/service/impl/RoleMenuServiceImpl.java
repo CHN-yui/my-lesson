@@ -2,6 +2,8 @@ package com.mdkj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mdkj.domain.RoleMenu;
+import com.mdkj.exception.ServiceException;
+import com.mdkj.result.ResultCode;
 import com.mdkj.service.RoleMenuService;
 import com.mdkj.mapper.RoleMenuMapper;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.mdkj.util.NotNullCheckUtil;
 
@@ -71,6 +74,37 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     @Override
     public List<RoleMenu> getExcelData() {
         return selectAll();
+    }
+
+    @Override
+    public List<Long> getMenuIdsByRoleId(Long roleId) {
+        LambdaQueryWrapper<RoleMenu> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(RoleMenu::getFkRoleId, roleId).eq(RoleMenu::getDeleted, 0);
+        List<RoleMenu> list = list(lqw);
+        return list.stream().map(RoleMenu::getFkMenuId).toList();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRoleMenus(Long roleId, List<Long> menuIds) {
+        if (Objects.isNull(roleId)) {
+            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "角色ID不能为空");
+        }
+        LambdaQueryWrapper<RoleMenu> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(RoleMenu::getFkRoleId, roleId).eq(RoleMenu::getDeleted, 0);
+        remove(lqw);
+        if (menuIds == null || menuIds.isEmpty()) {
+            return;
+        }
+        List<RoleMenu> saveList = new ArrayList<>(menuIds.size());
+        for (Long menuId : menuIds) {
+            RoleMenu rm = new RoleMenu();
+            rm.setFkRoleId(roleId);
+            rm.setFkMenuId(menuId);
+            rm.setDeleted(0);
+            saveList.add(rm);
+        }
+        saveBatch(saveList);
     }
 
     public LambdaQueryWrapper<RoleMenu> lqw(RoleMenu iRoleMenu){

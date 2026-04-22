@@ -2,8 +2,10 @@ package com.mdkj.service;
 
 import com.mdkj.domain.User;
 import java.util.List;
+import java.util.Map;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -54,4 +56,34 @@ public interface UserService extends IService<User>{
      * 修改密码
      */
     void updatePassword(String oldPassword, String newPassword,String id);
+
+    /**
+     * 上传用户头像
+     *
+     * @param newFile 头像文件
+     * @param id      用户主键
+     * @return 上传结果（文件名+访问URL）
+     */
+    Map<String, String> uploadAvatar(MultipartFile newFile, Long id);
+
+    /**
+     * 账号密码登录
+     */
+    Map<String, Object> accountLogin(String username, String password);
+
+    /**
+     * 手机号验证码登录
+     */
+    Map<String, Object> phoneLogin(String phone, String vcode);
+
+    /**
+     * 换绑手机号
+     */
+    void rebindPhone(Long id, String oldPhone, String newPhone, String oldVcode, String newVcode);
+
+    /**
+     * 用户统计
+     */
+    Map<String, Object> statistics();
+
 }

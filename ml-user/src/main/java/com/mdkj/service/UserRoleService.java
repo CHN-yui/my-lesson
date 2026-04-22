@@ -44,4 +44,14 @@ public interface UserRoleService extends IService<UserRole>{
     * 导出Excel数据
     */
     List<UserRole> getExcelData();
+
+    /**
+     * 查询用户的角色ID列表
+     */
+    List<Long> getRoleIdsByUserId(Long userId);
+
+    /**
+     * 修改用户角色
+     */
+    void updateUserRoles(Long userId, List<Long> roleIds);
 }

@@ -9,6 +9,9 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 用户角色关系表管理
  */
@@ -77,6 +80,27 @@ public class UserRoleController {
     @GetMapping("/excel")
     public void excel(HttpServletResponse resp) {
         EasyExcelUtil.download(resp, "用户角色关系表", iUserRoleService.getExcelData());
+    }
+
+    /**
+     * 查询用户角色
+     */
+    @GetMapping("/getRoleIdsByUserId/{userId}")
+    public R<?> getRoleIdsByUserId(@PathVariable("userId") Long userId) {
+        return R.ok("查询成功", iUserRoleService.getRoleIdsByUserId(userId));
+    }
+
+    /**
+     * 修改用户角色
+     */
+    @PostMapping("/updateUserRoles")
+    public R<?> updateUserRoles(@RequestBody Map<String, Object> map) {
+        Long userId = Long.valueOf(String.valueOf(map.get("userId")));
+        @SuppressWarnings("unchecked")
+        List<Number> rawRoleIds = (List<Number>) map.get("roleIds");
+        List<Long> roleIds = rawRoleIds == null ? List.of() : rawRoleIds.stream().map(Number::longValue).toList();
+        iUserRoleService.updateUserRoles(userId, roleIds);
+        return R.ok("修改用户角色成功");
     }
 }
 

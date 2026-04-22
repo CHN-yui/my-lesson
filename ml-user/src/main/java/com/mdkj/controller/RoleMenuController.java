@@ -9,6 +9,9 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 角色菜单关系表管理
  */
@@ -77,6 +80,27 @@ public class RoleMenuController {
     @GetMapping("/excel")
     public void excel(HttpServletResponse resp) {
         EasyExcelUtil.download(resp, "角色菜单关系表", iRoleMenuService.getExcelData());
+    }
+
+    /**
+     * 查询角色菜单
+     */
+    @GetMapping("/getMenuIdsByRoleId/{roleId}")
+    public R<?> getMenuIdsByRoleId(@PathVariable("roleId") Long roleId) {
+        return R.ok("查询成功", iRoleMenuService.getMenuIdsByRoleId(roleId));
+    }
+
+    /**
+     * 修改角色菜单
+     */
+    @PostMapping("/updateRoleMenus")
+    public R<?> updateRoleMenus(@RequestBody Map<String, Object> map) {
+        Long roleId = Long.valueOf(String.valueOf(map.get("roleId")));
+        @SuppressWarnings("unchecked")
+        List<Number> rawMenuIds = (List<Number>) map.get("menuIds");
+        List<Long> menuIds = rawMenuIds == null ? List.of() : rawMenuIds.stream().map(Number::longValue).toList();
+        iRoleMenuService.updateRoleMenus(roleId, menuIds);
+        return R.ok("修改角色菜单成功");
     }
 }
 

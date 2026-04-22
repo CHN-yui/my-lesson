@@ -2,6 +2,8 @@ package com.mdkj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mdkj.domain.UserRole;
+import com.mdkj.exception.ServiceException;
+import com.mdkj.result.ResultCode;
 import com.mdkj.service.UserRoleService;
 import com.mdkj.mapper.UserRoleMapper;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.mdkj.util.NotNullCheckUtil;
 
@@ -71,6 +74,37 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     @Override
     public List<UserRole> getExcelData() {
         return selectAll();
+    }
+
+    @Override
+    public List<Long> getRoleIdsByUserId(Long userId) {
+        LambdaQueryWrapper<UserRole> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(UserRole::getFkUserId, userId).eq(UserRole::getDeleted, 0);
+        List<UserRole> list = list(lqw);
+        return list.stream().map(UserRole::getFkRoleId).toList();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateUserRoles(Long userId, List<Long> roleIds) {
+        if (Objects.isNull(userId)) {
+            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "用户ID不能为空");
+        }
+        LambdaQueryWrapper<UserRole> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(UserRole::getFkUserId, userId).eq(UserRole::getDeleted, 0);
+        remove(lqw);
+        if (roleIds == null || roleIds.isEmpty()) {
+            return;
+        }
+        List<UserRole> saveList = new ArrayList<>(roleIds.size());
+        for (Long roleId : roleIds) {
+            UserRole ur = new UserRole();
+            ur.setFkUserId(userId);
+            ur.setFkRoleId(roleId);
+            ur.setDeleted(0);
+            saveList.add(ur);
+        }
+        saveBatch(saveList);
     }
 
     public LambdaQueryWrapper<UserRole> lqw(UserRole iUserRole){
