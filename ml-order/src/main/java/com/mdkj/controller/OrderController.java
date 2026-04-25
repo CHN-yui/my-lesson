@@ -1,6 +1,7 @@
 package com.mdkj.controller;
 
 import com.mdkj.domain.Order;
+import com.mdkj.dto.CreateOrderDTO;
 import com.mdkj.result.R;
 import com.mdkj.service.OrderService;
 import com.mdkj.util.EasyExcelUtil;
@@ -45,6 +46,14 @@ public class OrderController {
     }
 
     /**
+     * 创建预支付订单
+     */
+    @PostMapping("/createPrepay")
+    public R<?> createPrepay(@RequestBody CreateOrderDTO dto){
+        return R.ok("创建预支付订单成功", iOrderService.createPrepayOrder(dto));
+    }
+
+    /**
      * 删除订单表
      */
     @GetMapping("/delete")
@@ -77,6 +86,14 @@ public class OrderController {
     @GetMapping("/excel")
     public void excel(HttpServletResponse resp) {
         EasyExcelUtil.download(resp, "订单表", iOrderService.getExcelData());
+    }
+
+    /**
+     * 订单统计
+     */
+    @GetMapping("/statistics")
+    public R<?> statistics() {
+        return R.ok("查询成功", iOrderService.statistics());
     }
 }
 

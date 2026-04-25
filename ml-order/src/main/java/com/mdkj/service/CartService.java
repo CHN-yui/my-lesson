@@ -44,4 +44,9 @@ public interface CartService extends IService<Cart>{
     * 导出Excel数据
     */
     List<Cart> getExcelData();
+
+    /**
+     * 清空购物车
+     */
+    void clearByUserId(Long userId);
 }

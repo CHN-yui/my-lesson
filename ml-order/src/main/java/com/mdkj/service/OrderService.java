@@ -1,7 +1,9 @@
 package com.mdkj.service;
 
 import com.mdkj.domain.Order;
+import com.mdkj.dto.CreateOrderDTO;
 import java.util.List;
+import java.util.Map;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -44,4 +46,34 @@ public interface OrderService extends IService<Order>{
     * 导出Excel数据
     */
     List<Order> getExcelData();
+
+    /**
+     * 订单统计
+     */
+    Map<String, Object> statistics();
+
+    /**
+     * 创建预支付订单
+     */
+    Map<String, Object> createPrepayOrder(CreateOrderDTO dto);
+
+    /**
+     * 获取支付二维码
+     */
+    Map<String, Object> getPayQrcode(Long orderId);
+
+    /**
+     * 查询订单状态
+     */
+    Map<String, Object> queryOrderStatus(Long orderId);
+
+    /**
+     * 处理支付回调
+     */
+    void handlePayCallback(Long orderId, String tradeNo, Integer payType, String callbackMsg);
+
+    /**
+     * 支付宝回调处理
+     */
+    void handleAliPayCallback(Map<String, String> params);
 }

@@ -3,6 +3,9 @@ package com.mdkj.controller;
 import com.mdkj.domain.Cart;
 import com.mdkj.result.R;
 import com.mdkj.service.CartService;
+import com.mdkj.util.EasyExcelUtil;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +51,15 @@ public class CartController {
     public R<?> delete(@RequestParam("ids") String ids){
         iCartService.delete(ids);
         return R.ok("删除成功");
+    }
+
+    /**
+     * 清空购物车
+     */
+    @GetMapping("/clear")
+    public R<?> clear(@RequestParam("userId") Long userId){
+        iCartService.clearByUserId(userId);
+        return R.ok("清空成功");
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.mdkj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.mdkj.exception.ServiceException;
 import com.mdkj.domain.Cart;
 import com.mdkj.service.CartService;
 import com.mdkj.mapper.CartMapper;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.hutool.core.bean.BeanUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.mdkj.util.NotNullCheckUtil;
@@ -72,6 +74,25 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     @Override
     public List<Cart> getExcelData() {
         return selectAll();
+    }
+
+    @Override
+    public void clearByUserId(Long userId) {
+        if (userId == null) {
+            throw new ServiceException("用户ID不能为空");
+        }
+        LambdaQueryWrapper<Cart> query = new LambdaQueryWrapper<>();
+        query.eq(Cart::getFkUserId, userId).eq(Cart::getDeleted, 0);
+        List<Cart> carts = list(query);
+        if (carts.isEmpty()) {
+            return;
+        }
+        Date now = new Date();
+        for (Cart cart : carts) {
+            cart.setDeleted(1);
+            cart.setUpdated(now);
+        }
+        updateBatchById(carts);
     }
 
     public LambdaQueryWrapper<Cart> lqw(Cart iCart){
