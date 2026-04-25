@@ -9,7 +9,6 @@ import com.mdkj.component.MyRedis;
 import com.mdkj.constant.ML;
 import com.mdkj.domain.User;
 import com.mdkj.exception.ServiceException;
-import com.mdkj.result.ResultCode;
 import com.mdkj.service.UserService;
 import com.mdkj.mapper.UserMapper;
 import com.mdkj.util.MinioUtil;
@@ -114,10 +113,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public void updatePassword(String oldPassword, String newPassword, String id) {
         User user = userMapper.selectById(id);
         if (user == null) {
-            throw new ServiceException(ResultCode.USER_NOT_FOUND,"用户不存在");
+            throw new ServiceException("用户不存在");
         }
         if (!BCrypt.checkpw(oldPassword,user.getPassword())) {
-            throw new ServiceException(ResultCode.OLD_PASSWORD_ILLEGAL,"旧密码错误");
+            throw new ServiceException("旧密码错误");
         }
         user.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
         user.setUpdated(new Date());
@@ -130,7 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 按主键查询记录
         User user = userMapper.selectById(id);
         if (ObjectUtil.isNull(user)) {
-            throw new ServiceException(ResultCode.USER_NOT_FOUND, id + "号用户数据不存在");
+            throw new ServiceException(id + "号用户数据不存在");
         }
 
         // 备份旧文件名
@@ -141,35 +140,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         try {
             // 检查文件对象
             if (newFile == null) {
-                throw new ServiceException(ResultCode.SERVER_ERROR, "文件对象为空");
+                throw new ServiceException("文件对象为空");
             }
             if (newFile.isEmpty()) {
-                throw new ServiceException(ResultCode.SERVER_ERROR, "文件内容为空");
+                throw new ServiceException("文件内容为空");
             }
             if (newFile.getOriginalFilename() == null) {
-                throw new ServiceException(ResultCode.SERVER_ERROR, "原始文件名为空");
+                throw new ServiceException("原始文件名为空");
             }
             
             newFileName = MinioUtil.randomFilename(newFile);
             if (ObjectUtil.isNull(newFileName)) {
-                throw new ServiceException(ResultCode.SERVER_ERROR, "生成的文件名为空");
+                throw new ServiceException("生成的文件名为空");
             }
         } catch (Exception e) {
-            throw new ServiceException(ResultCode.SERVER_ERROR, "生成文件名失败：" + e.getMessage());
+            throw new ServiceException("生成文件名失败：" + e.getMessage());
         }
 
         try {
             // 先上传新文件，成功后再更新数据库，避免数据库脏数据
             MinioUtil.upload(newFile, newFileName, ML.MinIO.AVATAR_DIR, ML.MinIO.BUCKET_NAME);
         } catch (Exception e) {
-            throw new ServiceException(ResultCode.SERVER_ERROR, "MinIO操作失败：" + e.getMessage());
+            throw new ServiceException("MinIO操作失败：" + e.getMessage());
         }
 
         // DB更新文件名
         user.setAvatar(newFileName);
         user.setUpdated(new Date());
         if (userMapper.updateById(user) <= 0) {
-            throw new ServiceException(ResultCode.MYSQL_ERROR, "数据库更新头像文件名失败");
+            throw new ServiceException("数据库更新头像文件名失败");
         }
 
         try {
@@ -192,13 +191,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Map<String, Object> accountLogin(String username, String password) {
         if (StrUtil.isBlank(username) || StrUtil.isBlank(password)) {
-            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "账号或密码为空");
+            throw new ServiceException("账号或密码为空");
         }
         LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<>();
         lqw.eq(User::getUsername, username).eq(User::getDeleted, 0).last("limit 1");
         User user = getOne(lqw);
         if (ObjectUtil.isNull(user) || !BCrypt.checkpw(password, user.getPassword())) {
-            throw new ServiceException(ResultCode.ACCOUNT_ILLEGAL, "账号或密码错误");
+            throw new ServiceException("账号或密码错误");
         }
         return buildLoginData(user, "账号密码登录成功");
     }
@@ -206,17 +205,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Map<String, Object> phoneLogin(String phone, String vcode) {
         if (StrUtil.isBlank(phone) || StrUtil.isBlank(vcode)) {
-            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "手机号或验证码为空");
+            throw new ServiceException("手机号或验证码为空");
         }
         String cacheVcode = myRedis.get(ML.Redis.LOGIN_VCODE_PREFIX + phone);
         if (!StrUtil.equals(vcode, cacheVcode)) {
-            throw new ServiceException(ResultCode.VCODE_ILLEGAL, "登录验证码错误");
+            throw new ServiceException("登录验证码错误");
         }
         LambdaQueryWrapper<User> lqw = new LambdaQueryWrapper<>();
         lqw.eq(User::getPhone, phone).eq(User::getDeleted, 0).last("limit 1");
         User user = getOne(lqw);
         if (ObjectUtil.isNull(user)) {
-            throw new ServiceException(ResultCode.PHONE_NOT_FOUND, "手机号未注册");
+            throw new ServiceException("手机号未注册");
         }
         return buildLoginData(user, "手机号登录成功");
     }
@@ -224,27 +223,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void rebindPhone(Long id, String oldPhone, String newPhone, String oldVcode, String newVcode) {
         if (ObjectUtil.isNull(id) || StrUtil.hasBlank(oldPhone, newPhone, oldVcode, newVcode)) {
-            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "换绑参数不完整");
+            throw new ServiceException("换绑参数不完整");
         }
         User user = getById(id);
         if (ObjectUtil.isNull(user) || Objects.equals(user.getDeleted(), 1)) {
-            throw new ServiceException(ResultCode.USER_NOT_FOUND, "用户不存在");
+            throw new ServiceException("用户不存在");
         }
         if (!StrUtil.equals(user.getPhone(), oldPhone)) {
-            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "原手机号不匹配");
+            throw new ServiceException("原手机号不匹配");
         }
         String oldCacheVcode = myRedis.get(ML.Redis.UNBOUND_VCODE_PREFIX + oldPhone);
         if (!StrUtil.equals(oldVcode, oldCacheVcode)) {
-            throw new ServiceException(ResultCode.VCODE_ILLEGAL, "旧手机号验证码错误");
+            throw new ServiceException("旧手机号验证码错误");
         }
         String newCacheVcode = myRedis.get(ML.Redis.BOUND_VCODE_PREFIX + newPhone);
         if (!StrUtil.equals(newVcode, newCacheVcode)) {
-            throw new ServiceException(ResultCode.VCODE_ILLEGAL, "新手机号验证码错误");
+            throw new ServiceException("新手机号验证码错误");
         }
         LambdaQueryWrapper<User> repeatQuery = new LambdaQueryWrapper<>();
         repeatQuery.eq(User::getPhone, newPhone).eq(User::getDeleted, 0).ne(User::getId, id).last("limit 1");
         if (ObjectUtil.isNotNull(getOne(repeatQuery))) {
-            throw new ServiceException(ResultCode.PHONE_REPEAT, "新手机号已被占用");
+            throw new ServiceException("新手机号已被占用");
         }
         User updateEntity = new User();
         updateEntity.setId(id);

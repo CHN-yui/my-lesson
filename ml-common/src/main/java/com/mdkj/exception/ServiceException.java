@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 public class ServiceException extends RuntimeException {
 
-    private final ResultCode resultCode;
+    private ResultCode resultCode = null;
 
-    public ServiceException(ResultCode resultCode, String coderMessage) {
+    public ServiceException(String coderMessage) {
         super(coderMessage);
         this.resultCode = resultCode;
     }

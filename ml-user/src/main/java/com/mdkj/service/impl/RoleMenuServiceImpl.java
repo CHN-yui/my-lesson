@@ -3,7 +3,6 @@ package com.mdkj.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mdkj.domain.RoleMenu;
 import com.mdkj.exception.ServiceException;
-import com.mdkj.result.ResultCode;
 import com.mdkj.service.RoleMenuService;
 import com.mdkj.mapper.RoleMenuMapper;
 import org.springframework.stereotype.Service;
@@ -88,7 +87,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     @Transactional(rollbackFor = Exception.class)
     public void updateRoleMenus(Long roleId, List<Long> menuIds) {
         if (Objects.isNull(roleId)) {
-            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "角色ID不能为空");
+            throw new ServiceException("角色ID不能为空");
         }
         LambdaQueryWrapper<RoleMenu> lqw = new LambdaQueryWrapper<>();
         lqw.eq(RoleMenu::getFkRoleId, roleId).eq(RoleMenu::getDeleted, 0);

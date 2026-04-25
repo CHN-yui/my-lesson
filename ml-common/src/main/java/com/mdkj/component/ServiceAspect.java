@@ -3,7 +3,6 @@ package com.mdkj.component;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.mdkj.exception.ServiceException;
-import com.mdkj.result.ResultCode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -31,7 +30,7 @@ public class ServiceAspect {
 
         // 前置通知: 检查参数中是否存在空值
         if (ObjectUtil.hasNull(args)) {
-            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "业务方法 " + methodName + "中存在null值参数");
+            throw new ServiceException("业务方法 " + methodName + "中存在null值参数");
         }
 
         // 调用目标方法

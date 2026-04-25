@@ -79,8 +79,9 @@ public class MyRedis {
      *
      * @param key 缓存名
      * @param val 字符串类型的缓存记录
+     * @param l
      */
-    public void set(String key, String val) {
+    public void set(String key, String val, long l) {
         stringOps.set(key, val);
     }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mdkj.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.mdkj.domain.Order">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="sn" column="sn" jdbcType="VARCHAR"/>
+            <result property="totalAmount" column="total_amount" jdbcType="DECIMAL"/>
+            <result property="payAmount" column="pay_amount" jdbcType="DECIMAL"/>
+            <result property="payType" column="pay_type" jdbcType="TINYINT"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="fkUserId" column="fk_user_id" jdbcType="BIGINT"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="fkCouponsId" column="fk_coupons_id" jdbcType="BIGINT"/>
+            <result property="info" column="info" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="BIGINT"/>
+            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sn,total_amount,
+        pay_amount,pay_type,status,
+        fk_user_id,username,fk_coupons_id,
+        info,version,deleted,
+        created,updated
+    </sql>
+</mapper>

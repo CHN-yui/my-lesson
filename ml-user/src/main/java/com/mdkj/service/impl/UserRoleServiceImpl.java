@@ -3,7 +3,6 @@ package com.mdkj.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mdkj.domain.UserRole;
 import com.mdkj.exception.ServiceException;
-import com.mdkj.result.ResultCode;
 import com.mdkj.service.UserRoleService;
 import com.mdkj.mapper.UserRoleMapper;
 import org.springframework.stereotype.Service;
@@ -88,7 +87,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     @Transactional(rollbackFor = Exception.class)
     public void updateUserRoles(Long userId, List<Long> roleIds) {
         if (Objects.isNull(userId)) {
-            throw new ServiceException(ResultCode.ILLEGAL_PARAM, "用户ID不能为空");
+            throw new ServiceException("用户ID不能为空");
         }
         LambdaQueryWrapper<UserRole> lqw = new LambdaQueryWrapper<>();
         lqw.eq(UserRole::getFkUserId, userId).eq(UserRole::getDeleted, 0);

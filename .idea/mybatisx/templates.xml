@@ -6,7 +6,7 @@
         <option name="generateConfig">
           <GenerateConfig>
             <option name="annotationType" value="MYBATIS_PLUS3" />
-            <option name="basePackage" value="generator" />
+            <option name="basePackage" value="com.mdkj" />
             <option name="basePath" value="src/main/java" />
             <option name="classNameStrategy" value="camel" />
             <option name="encoding" value="UTF-8" />
@@ -15,8 +15,8 @@
             <option name="ignoreFieldSuffix" value="" />
             <option name="ignoreTablePrefix" value="" />
             <option name="ignoreTableSuffix" value="" />
-            <option name="moduleName" value="ml-user" />
-            <option name="modulePath" value="$PROJECT_DIR$/ml-user" />
+            <option name="moduleName" value="ml-order" />
+            <option name="modulePath" value="$PROJECT_DIR$/ml-order" />
             <option name="moduleUIInfoList">
               <list>
                 <ModuleInfoGo>
@@ -26,7 +26,7 @@
                   <option name="encoding" value="${domain.encoding}" />
                   <option name="fileName" value="${domain.fileName}ServiceImpl" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}ServiceImpl.java" />
-                  <option name="modulePath" value="$PROJECT_DIR$/ml-user" />
+                  <option name="modulePath" value="$PROJECT_DIR$/ml-order" />
                   <option name="packageName" value="${domain.basePackage}.service.impl" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
@@ -36,7 +36,7 @@
                   <option name="encoding" value="${domain.encoding}" />
                   <option name="fileName" value="${domain.fileName}Mapper" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}Mapper.java" />
-                  <option name="modulePath" value="$PROJECT_DIR$/ml-user" />
+                  <option name="modulePath" value="$PROJECT_DIR$/ml-order" />
                   <option name="packageName" value="${domain.basePackage}.mapper" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
@@ -46,7 +46,7 @@
                   <option name="encoding" value="${domain.encoding}" />
                   <option name="fileName" value="${domain.fileName}Service" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}Service.java" />
-                  <option name="modulePath" value="$PROJECT_DIR$/ml-user" />
+                  <option name="modulePath" value="$PROJECT_DIR$/ml-order" />
                   <option name="packageName" value="${domain.basePackage}.service" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
@@ -56,7 +56,7 @@
                   <option name="encoding" value="${domain.encoding}" />
                   <option name="fileName" value="${domain.fileName}Mapper" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}Mapper.xml" />
-                  <option name="modulePath" value="$PROJECT_DIR$/ml-user" />
+                  <option name="modulePath" value="$PROJECT_DIR$/ml-order" />
                   <option name="packageName" value="mapper" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
@@ -66,7 +66,7 @@
                   <option name="encoding" value="${domain.encoding}" />
                   <option name="fileName" value="${domain.fileName}Controller" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}Controller.java" />
-                  <option name="modulePath" value="$PROJECT_DIR$/ml-user" />
+                  <option name="modulePath" value="$PROJECT_DIR$/ml-order" />
                   <option name="packageName" value="${domain.basePackage}.controller" />
                 </ModuleInfoGo>
                 <ModuleInfoGo>
@@ -76,8 +76,8 @@
                   <option name="encoding" value="UTF-8" />
                   <option name="fileName" value="${domain.fileName}" />
                   <option name="fileNameWithSuffix" value="${domain.fileName}.java" />
-                  <option name="modulePath" value="$PROJECT_DIR$/ml-user" />
-                  <option name="packageName" value="generator.domain" />
+                  <option name="modulePath" value="$PROJECT_DIR$/ml-order" />
+                  <option name="packageName" value="com.mdkj.domain" />
                 </ModuleInfoGo>
               </list>
             </option>
@@ -90,31 +90,23 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="Menu" />
-                  <option name="tableName" value="menu" />
+                  <option name="className" value="Cart" />
+                  <option name="tableName" value="cart" />
                 </TableUIInfo>
                 <TableUIInfo>
-                  <option name="className" value="Role" />
-                  <option name="tableName" value="role" />
+                  <option name="className" value="Order" />
+                  <option name="tableName" value="order" />
                 </TableUIInfo>
                 <TableUIInfo>
-                  <option name="className" value="RoleMenu" />
-                  <option name="tableName" value="role_menu" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="User" />
-                  <option name="tableName" value="user" />
-                </TableUIInfo>
-                <TableUIInfo>
-                  <option name="className" value="UserRole" />
-                  <option name="tableName" value="user_role" />
+                  <option name="className" value="OrderDetail" />
+                  <option name="tableName" value="order_detail" />
                 </TableUIInfo>
               </list>
             </option>
             <option name="templatesName" value="mybatis-plus4" />
           </GenerateConfig>
         </option>
-        <option name="moduleName" value="ml-user" />
+        <option name="moduleName" value="ml-order" />
         <option name="projectPath" value="$PROJECT_DIR$" />
         <option name="templateName" value="mybatis-plus4" />
       </TemplateContext>

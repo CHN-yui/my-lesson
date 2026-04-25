@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mdkj.mapper.EpisodeMapper">
+
+    <resultMap id="BaseResultMap" type="com.mdkj.domain.Episode">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="info" column="info" jdbcType="VARCHAR"/>
+            <result property="video" column="video" jdbcType="VARCHAR"/>
+            <result property="cover" column="cover" jdbcType="VARCHAR"/>
+            <result property="fkSeasonId" column="fk_season_id" jdbcType="BIGINT"/>
+            <result property="idx" column="idx" jdbcType="BIGINT"/>
+            <result property="version" column="version" jdbcType="BIGINT"/>
+            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,info,
+        video,cover,fk_season_id,
+        idx,version,deleted,
+        created,updated
+    </sql>
+</mapper>

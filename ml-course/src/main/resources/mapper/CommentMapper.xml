@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mdkj.mapper.CommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.mdkj.domain.Comment">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="fkEpisodeId" column="fk_episode_id" jdbcType="BIGINT"/>
+            <result property="fkUserId" column="fk_user_id" jdbcType="BIGINT"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="province" column="province" jdbcType="VARCHAR"/>
+            <result property="pid" column="pid" jdbcType="BIGINT"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="BIGINT"/>
+            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,fk_episode_id,fk_user_id,
+        nickname,avatar,province,
+        pid,content,version,
+        deleted,created,updated
+    </sql>
+</mapper>

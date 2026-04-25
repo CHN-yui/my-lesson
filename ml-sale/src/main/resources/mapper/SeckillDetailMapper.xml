@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mdkj.mapper.SeckillDetailMapper">
+
+    <resultMap id="BaseResultMap" type="com.mdkj.domain.SeckillDetail">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="fkSeckillId" column="fk_seckill_id" jdbcType="BIGINT"/>
+            <result property="fkCourseId" column="fk_course_id" jdbcType="BIGINT"/>
+            <result property="courseTitle" column="course_title" jdbcType="VARCHAR"/>
+            <result property="courseCover" column="course_cover" jdbcType="VARCHAR"/>
+            <result property="coursePrice" column="course_price" jdbcType="DECIMAL"/>
+            <result property="skPrice" column="sk_price" jdbcType="DECIMAL"/>
+            <result property="skCount" column="sk_count" jdbcType="INTEGER"/>
+            <result property="info" column="info" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="BIGINT"/>
+            <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,fk_seckill_id,fk_course_id,
+        course_title,course_cover,course_price,
+        sk_price,sk_count,info,
+        version,deleted,created,
+        updated
+    </sql>
+</mapper>
